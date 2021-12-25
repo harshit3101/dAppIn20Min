@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>SImpleContract</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container" style="width: 650px;">
+      <div class="row">
+        <div class="col-lg-12 text-center" >
+          <h1 >Storage Value</h1>
+          <hr/>
+          <br/>
+          <div id="content">
+            <h4 id="storageValue"></h4>
+            <hr/>
+            <form role="form">
+              <div class="form-group" style="display:inline;">
+                <div class="input-group">
+                  <input class="form-control input-lg" name="storageValue">
+                  </input>
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">Store Value</button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script>
+      // Initialize Web3
+
+      web3 = new Web3(Web3.givenProvider || "https://rinkeby.infura.io/v3/APIKEY");
+
+
+
+      // Set Account
+       web3.eth.getAccounts().then(accounts => web3.eth.defaultAccount = accounts[0]);
+
+      // Set Contract Abi
+      var contractAbi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "retrieve",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "val",
+				"type": "string"
+			}
+		],
+		"name": "setValue",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "value",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+      // Set Contract Address
+      var contractAddress = '0xa8Dbef037BF13F375CD7738932c65D042009Ca79'; 
+
+      // Set the Contract
+      var contract = new web3.eth.Contract(contractAbi, contractAddress);
+
+
+      contract.methods.retrieve().call().then(val =>
+      document.getElementById('storageValue').innerHTML = val
+      );
+
+      $('form').on('submit', function(event) {
+        event.preventDefault();
+        contract.methods.setValue($('input').val()).send({from:web3.eth.defaultAccount})
+        .then(val => {
+          console.log(val); document.getElementById('storageValue').innerHTML = $('input').val();
+        }
+          );
+      })
+
+    </script>
+  </body>
+</html>
