@@ -49,12 +49,11 @@
     <script>
       // Initialize Web3
 
-      web3 = new Web3(Web3.givenProvider || "https://rinkeby.infura.io/v3/APIKEY");
-
-
+      web3 = new Web3(Web3.givenProvider || "http://localhost:7545/");
 
       // Set Account
-       web3.eth.getAccounts().then(accounts => web3.eth.defaultAccount = accounts[0]);
+       web3.eth.getAccounts().then(accounts => 
+       web3.eth.defaultAccount = accounts[0]);
 
       // Set Contract Abi
       var contractAbi = [

@@ -29,8 +29,16 @@ web3.eth.getTransactionCount(account1, (err, txCount) => {
 
   // Broadcast the transaction
   web3.eth.sendSignedTransaction(raw, (err, txHash) => {
-    console.log('txHash:', txHash),
-    console.log(err)
-    // Now go check etherscan to see the transaction!
+    if(err){
+      console.error('error: ',err);
+    }
+  // Now go check etherscan to see the transaction!
+
+    if(txHash){
+        console.log('txHash:', txHash);
+        if(infuraUrl.includes('rinkeby')) {
+            console.log("Go to https://rinkeby.etherscan.io/tx/"+txHash+" for checing transaction details");
+        }
+    }
   })
 })
