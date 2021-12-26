@@ -60,6 +60,12 @@ var contractAddress = '0x50ad15439a96a51e5Bf0fE9a8A5E2F9B97CF7f8F';
 
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
+web3.eth.estimateGas({
+    to: contractAddress,
+    data: contract.methods.setValue('Test Name Yes3').encodeABI()
+}).then(estimatedGas =>console.log("Estimated Gs Unit: ", estimatedGas))
+
+
 web3.eth.getTransactionCount(account1, (err, txCount) => {
   // Build the transaction
   const txObject = {
