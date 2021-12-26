@@ -49,11 +49,16 @@
     <script>
       // Initialize Web3
 
-      web3 = new Web3(Web3.givenProvider || "http://localhost:7545/");
+      web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:7545");
 
       // Set Account
-       web3.eth.getAccounts().then(accounts => 
-       web3.eth.defaultAccount = accounts[0]);
+       web3.eth.getAccounts().then(
+         accounts => {
+           web3.eth.defaultAccount = accounts[0];
+           console.log(accounts);
+         }
+
+        );
 
       // Set Contract Abi
       var contractAbi = [
@@ -104,7 +109,7 @@
 ];
 
       // Set Contract Address
-      var contractAddress = '0xa8Dbef037BF13F375CD7738932c65D042009Ca79'; 
+      var contractAddress = '0x9593bF726dDc3D6b67167CD984E3be7630ef3d7E'; 
 
       // Set the Contract
       var contract = new web3.eth.Contract(contractAbi, contractAddress);
